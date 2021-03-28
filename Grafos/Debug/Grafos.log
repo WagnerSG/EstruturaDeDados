@@ -1,0 +1,3 @@
+﻿  Ex3_Grafos.cpp
+C:\Users\Alisson\source\repos\Grafos\Ex3_Grafos.cpp(95,34): error C2664:  'Grafo *CriarGrafo(char *)': não é possível converter um argumento 1 de 'int' em 'char *'
+C:\Users\Alisson\source\repos\Grafos\Ex3_Grafos.cpp(95,33): message :  Conversão de tipo integral para tipo de ponteiro requer reinterpret_cast, conversão C-style ou conversão function-style
