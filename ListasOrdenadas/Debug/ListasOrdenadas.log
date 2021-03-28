@@ -1,0 +1,4 @@
+﻿  Origem.cpp
+C:\Users\Alisson\source\repos\ListasOrdenadas\Origem.cpp(35,46): warning C4474:  'scanf_s': excesso de argumentos transmitidos para cadeia de caracteres de formato
+C:\Users\Alisson\source\repos\ListasOrdenadas\Origem.cpp(35,46): message :  espaços reservados e seus parâmetros esperam 1 argumentos variadic, mas 2 foram fornecidos
+  ListasOrdenadas.vcxproj -> C:\Users\Alisson\source\repos\ListasOrdenadas\Debug\ListasOrdenadas.exe
