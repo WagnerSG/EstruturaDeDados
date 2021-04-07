@@ -1,0 +1,207 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "stdafx.h"
+#include <iostream>
+
+
+struct Cidades
+{
+	int vertice;
+	char nome[30];
+	Cidades* prox;
+
+};
+
+struct Grafo
+{
+	int TotalVertices;
+	char nome[30];
+	struct Cidades** ListaAdj; //Será um ponteiro para um vetor do tamanho do numero de vértices
+									   //alocado dinamicamente, por isso o **
+};
+
+struct Arvore {
+	struct Cidades* caminho;
+	struct Arvore* esquerda;
+	struct Arvore* direita;
+};
+
+
+struct Grafo* CriarGrafo(int vertices);
+int Inserir(Arvore* Elemento);
+void AdicionarAresta(struct Grafo* Grafo, int origem, char city1[], int destino, char city[]);
+void MostrarGrafo(struct Grafo* Grafo);
+void Mostrar_EmOrdem(Arvore* Elemento);
+
+int main()
+{
+
+	Arvore *root;
+	root = (Arvore*)malloc(sizeof(Arvore));
+	root = NULL;
+
+
+	Grafo* GrafoTeste = CriarGrafo(55);
+
+	Inserir(AdicionarAresta(GrafoTeste, 0, (char*)"Castle_Black", 1, (char*)"Karhold"));
+	Inserir(AdicionarAresta(GrafoTeste, 0, (char*)"Castle_Black", 2, (char*)"Winterfell"));
+	Inserir(AdicionarAresta(GrafoTeste, 2, (char*)"Winterfell", 3, (char*)"The Stony Shore"));
+	Inserir(AdicionarAresta(GrafoTeste, 2, (char*)"Winterfell", 4, (char*)"White Harbor"));
+	Inserir(AdicionarAresta(GrafoTeste, 2, (char*)"Winterfell", 8, (char*)"Moat Calin"));
+	Inserir(AdicionarAresta(GrafoTeste, 4, (char*)"White Harbor", 5, (char*)"Widows Watch"));
+	Inserir(AdicionarAresta(GrafoTeste, 8, (char*)"Moat Calin", 6, (char*)"Greywater Watch"));
+	Inserir(AdicionarAresta(GrafoTeste, 8, (char*)"Moat Calin", 9, (char*)"Seagard"));
+	Inserir(AdicionarAresta(GrafoTeste, 8, (char*)"Moat Calin", 10, (char*)"The Twins"));
+	Inserir(AdicionarAresta(GrafoTeste, 6, (char*)"Greywater Watch", 7, (char*)"Funts Finger"));
+	Inserir(AdicionarAresta(GrafoTeste, 6, (char*)"Greywater Watch", 9, (char*)"Seagard"));
+	Inserir(AdicionarAresta(GrafoTeste, 9, (char*)"Seagard", 10, (char*)"The Twins"));
+	Inserir(AdicionarAresta(GrafoTeste, 10, (char*)"The Twins", 11, (char*)"The Fingers"));
+	Inserir(AdicionarAresta(GrafoTeste, 10, (char*)"The Twins", 12, (char*)"The Mountains of the Moon"));
+	Inserir(AdicionarAresta(GrafoTeste, 11, (char*)"The Fingers", 12, (char*)"The Mountains of the Moon"));
+	Inserir(AdicionarAresta(GrafoTeste, 12, (char*)"The Mountains of the Moon", 13, (char*)"The Eyrie1"));
+	Inserir(AdicionarAresta(GrafoTeste, 12, (char*)"The Mountains of the Moon", 18, (char*)"Crackclaw Point"));
+	Inserir(AdicionarAresta(GrafoTeste, 18, (char*)"Crackclaw Point", 14, (char*)"Harrenhal"));
+	Inserir(AdicionarAresta(GrafoTeste, 14, (char*)"Harrenhal", 15, (char*)"Riverrun"));
+	Inserir(AdicionarAresta(GrafoTeste, 15, (char*)"Riverrun", 17, (char*)"Stoney Sept"));
+	Inserir(AdicionarAresta(GrafoTeste, 15, (char*)"Riverrun", 16, (char*)"Lannisport"));
+	Inserir(AdicionarAresta(GrafoTeste, 16, (char*)"Lannisport", 17, (char*)"Stoney Sept"));
+	Inserir(AdicionarAresta(GrafoTeste, 14, (char*)"Harrenhal", 17, (char*)"Stoney Sept"));
+	Inserir(AdicionarAresta(GrafoTeste, 14, (char*)"Harrenhal", 20, (char*)"Black Water"));
+	Inserir(AdicionarAresta(GrafoTeste, 14, (char*)"Harrenhal", 18, (char*)"Crackclaw Point"));
+	Inserir(AdicionarAresta(GrafoTeste, 17, (char*)"Stoney Sept", 21, (char*)"Searoad Marches"));
+	Inserir(AdicionarAresta(GrafoTeste, 17, (char*)"Stoney Sept", 20, (char*)"Black Water"));
+	Inserir(AdicionarAresta(GrafoTeste, 18, (char*)"Crackclaw Point", 20, (char*)"Black Water"));
+	Inserir(AdicionarAresta(GrafoTeste, 18, (char*)"Crackclaw Point", 19, (char*)"Kings Landing"));
+	Inserir(AdicionarAresta(GrafoTeste, 20, (char*)"Black Water", 21, (char*)"Searoad Marches"));
+	Inserir(AdicionarAresta(GrafoTeste, 20, (char*)"Black Water", 23, (char*)"The Reach"));
+	Inserir(AdicionarAresta(GrafoTeste, 19, (char*)"Kings Landing", 23, (char*)"The Reach"));
+	Inserir(AdicionarAresta(GrafoTeste, 19, (char*)"Kings Landing", 22, (char*)"Kings Wood"));
+	Inserir(AdicionarAresta(GrafoTeste, 21, (char*)"Searoad Marches", 24, (char*)"High Garden"));
+	Inserir(AdicionarAresta(GrafoTeste, 24, (char*)"High Garden", 23, (char*)"The Reach"));
+	Inserir(AdicionarAresta(GrafoTeste, 24, (char*)"High Garden", 29, (char*)"Oldtown"));
+	Inserir(AdicionarAresta(GrafoTeste, 24, (char*)"High Garden", 25, (char*)"Dornish Marches"));
+	Inserir(AdicionarAresta(GrafoTeste, 23, (char*)"The Reach", 25, (char*)"Dornish Marches"));
+	Inserir(AdicionarAresta(GrafoTeste, 23, (char*)"The Reach", 26, (char*)"The Boneway"));
+	Inserir(AdicionarAresta(GrafoTeste, 22, (char*)"Kings Wood", 27, (char*)"Storms End"));
+	Inserir(AdicionarAresta(GrafoTeste, 22, (char*)"Kings Wood", 26, (char*)"The Boneway"));
+	Inserir(AdicionarAresta(GrafoTeste, 22, (char*)"Kings Wood", 23, (char*)"The Reach"));
+	Inserir(AdicionarAresta(GrafoTeste, 25, (char*)"Dornish Marches", 29, (char*)"Oldtown"));
+	Inserir(AdicionarAresta(GrafoTeste, 25, (char*)"Dornish Marches", 28, (char*)"Prince Pass"));
+	Inserir(AdicionarAresta(GrafoTeste, 25, (char*)"Dornish Marches", 30, (char*)"The Boneway"));
+	Inserir(AdicionarAresta(GrafoTeste, 29, (char*)"Oldtown", 30, (char*)"Three Towers"));
+	Inserir(AdicionarAresta(GrafoTeste, 27, (char*)"Storms End", 26, (char*)"The Boneway"));
+	Inserir(AdicionarAresta(GrafoTeste, 26, (char*)"The Boneway", 28, (char*)"Prince Pass"));
+	Inserir(AdicionarAresta(GrafoTeste, 30, (char*)"Three Towers", 28, (char*)"Prince Pass"));
+	Inserir(AdicionarAresta(GrafoTeste, 28, (char*)"Prince Pass", 32, (char*)"Starfall"));
+	Inserir(AdicionarAresta(GrafoTeste, 28, (char*)"Prince Pass", 31, (char*)"Yronwood"));
+	Inserir(AdicionarAresta(GrafoTeste, 32, (char*)"Starfall", 31, (char*)"Yronwood"));
+	Inserir(AdicionarAresta(GrafoTeste, 31, (char*)"Yronwood", 34, (char*)"Sunspear"));
+	Inserir(AdicionarAresta(GrafoTeste, 31, (char*)"Yronwood", 33, (char*)"Saltshore"));
+	Inserir(AdicionarAresta(GrafoTeste, 33, (char*)"Saltshore", 34, (char*)"Sunspear"));
+
+	MostrarGrafo(GrafoTeste);
+
+	printf("\n\n");
+	Mostrar_EmOrdem(root);
+	printf("\n\n");
+
+	system("pause");
+
+	return 0;
+}
+
+struct Grafo* CriarGrafo(char TotalVertices)
+{
+	Grafo* Grafo = (struct Grafo*)malloc(sizeof(struct Grafo));
+	Grafo->TotalVertices = TotalVertices;
+	Grafo->ListaAdj = (struct Cidades**)malloc(TotalVertices * sizeof(struct Cidades*));
+
+	for (int i = 0; i < TotalVertices; i++)
+		Grafo->ListaAdj[i] = NULL;
+
+	return Grafo;
+}
+
+int Inserir(Arvore *Elemento)
+{
+	int origem, destino;
+	char city1[30], city[30];
+
+	if (*Elemento == NULL)
+	{ //SE ESTÁ VAZIO, COLOCA NA ÁRVORE
+		Arvore* NovoElemento = NULL;
+		NovoElemento = (Arvore*)malloc(sizeof(Arvore));
+		NovoElemento->esquerda = NULL;
+		NovoElemento->direita = NULL;
+
+		NovoElemento-> = destino;
+		strcpy_s(NovoElemento->caminho->nome, city[]);
+		*Elemento = NovoElemento;
+		return;
+	}
+
+	if (origem < (*Elemento)->caminho.vertices)
+	{
+		Inserir(&(*Elemento)->esquerda, destino, city[]);
+	}
+	else
+	{
+		if (origem > (*Elemento)->caminho.vertices)
+		{
+			Inserir(&(*Elemento)->direita, detino, city[]);
+		}
+	}
+}
+
+void AdicionarAresta(struct Grafo* Grafo, int origem, char city1[], int destino, char city[])
+{ //INSERÇÃO NO INICIO DA LISTA 
+  // Adiciona uma aresta da origem para o  destino
+	struct Cidades* NovoElemento = (struct Cidades*)malloc(sizeof(struct Cidades));
+	NovoElemento->vertice = destino;
+	strcpy_s(NovoElemento->nome, city);
+	NovoElemento->prox = NULL;
+
+	NovoElemento->prox, Grafo->ListaAdj[city1];
+	Grafo->ListaAdj[city1] = NovoElemento;
+
+	// Adiciona uma aresta do destino para a origem
+	NovoElemento = (struct Cidades*)malloc(sizeof(struct Cidades));
+	NovoElemento->vertice = origem;
+	strcpy_s(NovoElemento->nome, city1);
+	NovoElemento->prox = NULL;
+
+	NovoElemento->prox, Grafo->ListaAdj[city];
+	Grafo->ListaAdj[city] = NovoElemento;
+}
+
+
+void MostrarGrafo(struct Grafo* Grafo)
+{
+	int v;
+	for (v = 0; v < Grafo->TotalVertices; v++)
+	{
+		struct Cidades* ElementoVarredura = Grafo->ListaAdj[v];
+		printf_s("\n Lista de adjacencias do vertice %d:\n ", v);
+		puts(Grafo->ListaAdj[v]->nome[]);
+		while (ElementoVarredura != NULL)
+		{
+			printf_s("%d -> ", ElementoVarredura->vertice);
+			printf_s("%29s ->", ElementoVarredura->nome[]);
+			ElementoVarredura = ElementoVarredura->prox;
+
+		}
+		printf("\n");
+	}
+}
+
+void Mostrar_EmOrdem(Arvore* Elemento)
+{
+	if (Elemento)
+	{
+		Consultar_EmOrdem(Elemento->esquerda);
+		printf_s("%d -> ", Elemento->caminho.vertice);
+		printf_s("%29s ->", Elemento->caminho.nome[]);
+		Consultar_EmOrdem(Elemento->direita);
+	}
+}
